@@ -18,12 +18,11 @@ function addSession(session) {
 }
 
 function sessionWillDownload(event, download) {
-  download.once("done", downloadDone)
-}
-
-function downloadDone(event, state) {
-  if (state != "completed") return
-  observer.emit("download-completed", event.sender)
+  download.once("done", (event, state) => {
+    if (state == "completed") {
+      observer.emit("download-completed", download)
+    }
+  })
 }
 
 module.exports = observer
